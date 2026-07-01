@@ -10,11 +10,11 @@ Manajemen Keuangan adalah aplikasi pencatatan dan analisis keuangan pribadi yang
 ## 📸 Cuplikan Layar (Screenshots)
 *(Di bawah ini adalah gambaran halaman utama aplikasi)*
 
-| Halaman Login | Dashboard Analisis | Laporan aktivitas |
+| Dashboard Analisis | Laporan aktivitas |
 | :---: | :---: |
 | ![Dashboard](assets/images/dashboard-preview.png) |  ![Dashboard](assets/images/laporan.png) |
 
----
+
 
 ## ✨ Fitur Utama
 

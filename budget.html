@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget - Manajemen Keuangan</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .budget-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .budget-card {
+            padding: 20px;
+        }
+        .budget-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .budget-header h3 { font-size: 1.1rem; }
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background: var(--background-accent);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .progress-bar {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+        .budget-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .budget-actions {
+            margin-top: 15px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        .budget-actions .btn { padding: 5px 10px; font-size: 0.8rem; }
+        
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { width: 100%; max-width: 400px; padding: 25px; transform: translateY(-20px); transition: all 0.3s; }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+        .modal-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .close-btn { background: transparent; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-muted); }
+        .close-btn:hover { color: var(--danger); }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fa-solid fa-wallet"></i>
+                <h2>KeuanganKu</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+                <li><a href="transaksi.html"><i class="fa-solid fa-money-bill-transfer"></i> Transaksi</a></li>
+                <li><a href="statistik.html"><i class="fa-solid fa-chart-pie"></i> Statistik</a></li>
+                <li><a href="budget.html" class="active"><i class="fa-solid fa-bullseye"></i> Budget</a></li>
+                <li><a href="target.html"><i class="fa-solid fa-piggy-bank"></i> Target</a></li>
+                <li><a href="kalender.html"><i class="fa-solid fa-calendar-days"></i> Kalender</a></li>
+                <li><a href="laporan.html"><i class="fa-solid fa-file-invoice"></i> Laporan</a></li>
+                <li><a href="pengaturan.html"><i class="fa-solid fa-gear"></i> Pengaturan</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <div class="mobile-toggle"><button id="sidebar-toggle" class="btn"><i class="fa-solid fa-bars"></i></button></div>
+                <div><h1>Budget Bulanan</h1></div>
+                <div class="user-info">
+                    <button id="theme-toggle" class="theme-toggle"></button>
+                </div>
+            </header>
+
+            <div class="glass-card" style="padding: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h3 style="margin-bottom: 5px;">Kelola Pengeluaran Anda</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Tetapkan batas pengeluaran untuk setiap kategori bulan ini.</p>
+                </div>
+                <button id="btn-tambah" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Buat Budget</button>
+            </div>
+
+            <div class="budget-grid" id="budget-container">
+                <!-- Injected by JS -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Form -->
+    <div class="modal-overlay" id="budget-modal">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <h3 id="modal-title">Tambah Budget</h3>
+                <button class="close-btn" id="btn-close-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="budget-form">
+                <input type="hidden" id="budget-id">
+                <div class="input-group">
+                    <label>Kategori</label>
+                    <select id="form-kategori" class="input-control" required>
+                        <option value="Makan & Minum">Makan & Minum</option>
+                        <option value="Transportasi">Transportasi</option>
+                        <option value="Belanja">Belanja</option>
+                        <option value="Tagihan">Tagihan</option>
+                        <option value="Hiburan">Hiburan</option>
+                        <option value="Lainnya">Lainnya</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Batas Nominal</label>
+                    <input type="text" id="form-nominal" class="input-control" placeholder="Rp 0" required>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end;">
+                    <button type="button" class="btn" style="background: var(--border-color);" id="btn-batal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/budget.js"></script>
+</body>
+</html>

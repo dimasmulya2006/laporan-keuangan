@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Manajemen Keuangan</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .login-page {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+        }
+        
+        [data-theme="dark"] .login-page {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border-radius: 20px;
+        }
+
+        .login-card h2 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .login-card .input-control {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            width: 100%;
+            padding: 12px 20px;
+        }
+        
+        .login-card .input-control::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .login-card .input-control:focus {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: white;
+            box-shadow: none;
+        }
+
+        .login-card .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background: white;
+            color: var(--primary);
+            font-weight: 600;
+            margin-top: 10px;
+            font-size: 1rem;
+        }
+
+        .login-card .btn-primary:hover {
+            background: #f1f5f9;
+        }
+        
+        .login-icon {
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-page">
+        <div class="login-card glass-card">
+            <i class="fa-solid fa-wallet login-icon"></i>
+            <h2>Manajemen Keuangan</h2>
+            <form id="login-form">
+                <div class="input-group">
+                    <input type="text" id="username" class="input-control" placeholder="Nama Pengguna (Username)" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password" class="input-control" placeholder="Kata Sandi (Opsional)" >
+                </div>
+                <button type="submit" class="btn btn-primary">Masuk</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            if(username) {
+                Storage.login(username);
+                window.location.href = 'dashboard.html';
+            }
+        });
+    </script>
+</body>
+</html>

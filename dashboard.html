@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Manajemen Keuangan</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fa-solid fa-wallet"></i>
+                <h2>KeuanganKu</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+                <li><a href="transaksi.html"><i class="fa-solid fa-money-bill-transfer"></i> Transaksi</a></li>
+                <li><a href="statistik.html"><i class="fa-solid fa-chart-pie"></i> Statistik</a></li>
+                <li><a href="budget.html"><i class="fa-solid fa-bullseye"></i> Budget</a></li>
+                <li><a href="target.html"><i class="fa-solid fa-piggy-bank"></i> Target</a></li>
+                <li><a href="kalender.html"><i class="fa-solid fa-calendar-days"></i> Kalender</a></li>
+                <li><a href="laporan.html"><i class="fa-solid fa-file-invoice"></i> Laporan</a></li>
+                <li><a href="pengaturan.html"><i class="fa-solid fa-gear"></i> Pengaturan</a></li>
+            </ul>
+            <div style="margin-top: auto;">
+                <button id="logout-btn" class="btn btn-danger" style="width: 100%;"><i class="fa-solid fa-right-from-bracket"></i> Keluar</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <div class="mobile-toggle">
+                    <button id="sidebar-toggle" class="btn"><i class="fa-solid fa-bars"></i></button>
+                </div>
+                <div>
+                    <h1>Dashboard</h1>
+                </div>
+                <div class="user-info">
+                    <button id="theme-toggle" class="theme-toggle"></button>
+                    <span id="display-user-name" style="font-weight: 500;">User</span>
+                    <i class="fa-solid fa-circle-user" style="font-size: 1.5rem; color: var(--primary);"></i>
+                </div>
+            </header>
+
+            <!-- Dashboard Summary Cards -->
+            <section class="summary-cards">
+                <div class="glass-card summary-card">
+                    <div class="card-icon" style="color: var(--primary);"><i class="fa-solid fa-wallet"></i></div>
+                    <div class="card-info">
+                        <h3>Saldo Saat Ini</h3>
+                        <p id="saldo-saat-ini">Rp 0</p>
+                    </div>
+                </div>
+                <div class="glass-card summary-card">
+                    <div class="card-icon" style="color: var(--success);"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                    <div class="card-info">
+                        <h3>Total Pemasukan</h3>
+                        <p id="total-pemasukan">Rp 0</p>
+                    </div>
+                </div>
+                <div class="glass-card summary-card">
+                    <div class="card-icon" style="color: var(--danger);"><i class="fa-solid fa-arrow-trend-down"></i></div>
+                    <div class="card-info">
+                        <h3>Total Pengeluaran</h3>
+                        <p id="total-pengeluaran">Rp 0</p>
+                    </div>
+                </div>
+                <div class="glass-card summary-card">
+                    <div class="card-icon" style="color: var(--warning);"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                    <div class="card-info">
+                        <h3>Total Transaksi</h3>
+                        <p id="total-transaksi">0</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Charts Section -->
+            <section class="charts-section">
+                <div class="glass-card chart-container">
+                    <h3>Pemasukan vs Pengeluaran</h3>
+                    <canvas id="mainChart"></canvas>
+                </div>
+                <div class="glass-card chart-container">
+                    <h3>Kategori Pengeluaran</h3>
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </section>
+
+            <!-- Recent Transactions Section -->
+            <section class="recent-transactions glass-card">
+                <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3>Transaksi Terbaru</h3>
+                    <a href="transaksi.html" class="btn btn-primary" style="text-decoration: none; font-size: 0.9rem;">Lihat Semua</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Deskripsi</th>
+                                <th>Kategori</th>
+                                <th>Nominal</th>
+                                <th>Jenis</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-transactions-tbody">
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

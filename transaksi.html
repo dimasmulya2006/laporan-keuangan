@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaksi - Manajemen Keuangan</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/transaksi.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fa-solid fa-wallet"></i>
+                <h2>KeuanganKu</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+                <li><a href="transaksi.html" class="active"><i class="fa-solid fa-money-bill-transfer"></i> Transaksi</a></li>
+                <li><a href="statistik.html"><i class="fa-solid fa-chart-pie"></i> Statistik</a></li>
+                <li><a href="budget.html"><i class="fa-solid fa-bullseye"></i> Budget</a></li>
+                <li><a href="target.html"><i class="fa-solid fa-piggy-bank"></i> Target</a></li>
+                <li><a href="kalender.html"><i class="fa-solid fa-calendar-days"></i> Kalender</a></li>
+                <li><a href="laporan.html"><i class="fa-solid fa-file-invoice"></i> Laporan</a></li>
+                <li><a href="pengaturan.html"><i class="fa-solid fa-gear"></i> Pengaturan</a></li>
+            </ul>
+            <div style="margin-top: auto;">
+                <button id="logout-btn" class="btn btn-danger" style="width: 100%;"><i class="fa-solid fa-right-from-bracket"></i> Keluar</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <div class="mobile-toggle">
+                    <button id="sidebar-toggle" class="btn"><i class="fa-solid fa-bars"></i></button>
+                </div>
+                <div>
+                    <h1>Data Transaksi</h1>
+                </div>
+                <div class="user-info">
+                    <button id="theme-toggle" class="theme-toggle"></button>
+                    <span id="display-user-name" style="font-weight: 500;">User</span>
+                    <i class="fa-solid fa-circle-user" style="font-size: 1.5rem; color: var(--primary);"></i>
+                </div>
+            </header>
+
+            <div class="glass-card page-wrapper">
+                <div class="page-header">
+                    <button id="btn-tambah" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Tambah Transaksi</button>
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="search-input" class="input-control" placeholder="Cari transaksi...">
+                    </div>
+                </div>
+
+                <div class="filters-container">
+                    <select id="filter-waktu" class="input-control">
+                        <option value="Semua">Semua Waktu</option>
+                        <option value="Hari Ini">Hari Ini</option>
+                        <option value="Minggu Ini">Minggu Ini</option>
+                        <option value="Bulan Ini">Bulan Ini</option>
+                        <option value="Tahun Ini">Tahun Ini</option>
+                    </select>
+                    <select id="filter-jenis" class="input-control">
+                        <option value="Semua">Semua Jenis</option>
+                        <option value="Pemasukan">Pemasukan</option>
+                        <option value="Pengeluaran">Pengeluaran</option>
+                    </select>
+                    <select id="sort-data" class="input-control">
+                        <option value="Tanggal Terbaru">Tanggal Terbaru</option>
+                        <option value="Tanggal Terlama">Tanggal Terlama</option>
+                        <option value="Nominal Terbesar">Nominal Terbesar</option>
+                        <option value="Nominal Terkecil">Nominal Terkecil</option>
+                    </select>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table" id="transaksi-table">
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Jenis</th>
+                                <th>Kategori</th>
+                                <th>Deskripsi</th>
+                                <th>Nominal</th>
+                                <th style="text-align: right;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transaksi-tbody">
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="pagination" id="pagination">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Form Transaksi -->
+    <div class="modal-overlay" id="transaksi-modal">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <h3 id="modal-title">Tambah Transaksi</h3>
+                <button class="close-btn" id="btn-close-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="transaksi-form">
+                <input type="hidden" id="transaksi-id">
+                <div class="input-group">
+                    <label>Jenis Transaksi</label>
+                    <select id="form-jenis" class="input-control" required>
+                        <option value="Pengeluaran">Pengeluaran</option>
+                        <option value="Pemasukan">Pemasukan</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Tanggal</label>
+                    <input type="date" id="form-tanggal" class="input-control" required>
+                </div>
+                <div class="input-group">
+                    <label>Nominal</label>
+                    <input type="text" id="form-nominal" class="input-control" placeholder="Rp 0" required>
+                </div>
+                <div class="input-group">
+                    <label>Kategori</label>
+                    <select id="form-kategori" class="input-control" required>
+                        <!-- Dynamic options -->
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Deskripsi</label>
+                    <input type="text" id="form-deskripsi" class="input-control" maxlength="200" placeholder="Deskripsi singkat..." required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" style="background: var(--border-color);" id="btn-batal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Confirm Hapus -->
+    <div class="modal-overlay" id="confirm-modal">
+        <div class="modal-content glass-card" style="max-width: 400px; text-align: center;">
+            <i class="fa-solid fa-triangle-exclamation" style="font-size: 3rem; color: var(--danger); margin-bottom: 15px;"></i>
+            <h3>Hapus Transaksi</h3>
+            <p style="margin-bottom: 20px; color: var(--text-muted);">Apakah Anda yakin ingin menghapus transaksi ini? Data tidak dapat dikembalikan.</p>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button class="btn" style="background: var(--border-color);" id="btn-cancel-delete">Batal</button>
+                <button class="btn btn-danger" id="btn-confirm-delete">Ya, Hapus</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/transaksi.js"></script>
+</body>
+</html>
